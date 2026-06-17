@@ -5,11 +5,12 @@ const { initDatabase } = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const STATIC_DIR = process.env.STATIC_DIR || path.join(__dirname, '../client/dist');
 
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(STATIC_DIR));
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/videos', require('./routes/videos'));
@@ -22,7 +23,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  res.sendFile(path.join(STATIC_DIR, 'index.html'));
 });
 
 async function start() {

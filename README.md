@@ -68,6 +68,37 @@ npm run dev
 ```
 前端开发服务器运行在 http://localhost:3000
 
+### 方式三：Docker Compose 部署（推荐用于演示/生产环境）
+
+```bash
+cd /Users/zhuyan/pm-charge-mvp
+
+# 构建并启动
+docker compose up -d
+
+# 查看日志
+docker compose logs -f
+
+# 停止
+docker compose down
+
+# 重新构建（代码更新后）
+docker compose up -d --build
+```
+
+访问 http://localhost:3001
+
+#### Docker 说明
+
+- 单容器部署，前端构建后由后端统一 serving
+- SQLite 数据库持久化在 Docker Volume `pm-charge-data`
+- 首次启动自动执行种子数据，后续重启不会重置数据
+- 如需重新生成种子数据，删除 volume 后重启：
+  ```bash
+  docker compose down -v
+  docker compose up -d
+  ```
+
 ### 重新生成种子数据
 
 ```bash

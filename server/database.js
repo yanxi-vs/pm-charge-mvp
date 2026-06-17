@@ -7,7 +7,7 @@ let db = null;
 async function getDb() {
   if (!db) {
     db = await open({
-      filename: path.join(__dirname, 'pm_charge.db'),
+      filename: process.env.DB_PATH || path.join(__dirname, 'pm_charge.db'),
       driver: sqlite3.Database
     });
   }

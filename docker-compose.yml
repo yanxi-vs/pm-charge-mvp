@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  pm-charge-mvp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pm-charge-mvp
+    ports:
+      - "3001:3001"
+    volumes:
+      - pm-charge-data:/data
+    environment:
+      - PORT=3001
+      - DB_PATH=/data/pm_charge.db
+      - STATIC_DIR=/app/server/client-dist
+      - NODE_ENV=production
+    restart: unless-stopped
+
+volumes:
+  pm-charge-data:
