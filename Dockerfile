@@ -14,9 +14,14 @@ FROM node:18-alpine
 
 WORKDIR /app/server
 
+# 安装构建依赖（sqlite3 需要 Python 与 C++ 编译器），然后清理
+RUN apk add --no-cache --virtual .build-deps python3 make g++ \
+    && ln -sf python3 /usr/bin/python
+
 # 安装后端依赖
 COPY server/package.json ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev \
+    && apk del .build-deps
 
 # 复制后端代码
 COPY server/ ./
